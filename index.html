@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Shirt Customization (Mobile)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+            background-image: url('https://i.hizliresim.com/8yti1g3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 927px;
+            overflow: hidden;
+        }
+        .container {
+            height: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-family: 'Bebas Neue', cursive;
+            text-align: center;
+            font-size: 1.8em;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .customization-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-selection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            max-height: 40%;
+        }
+        .logo-option {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .logo-option:hover, .logo-option.selected {
+            transform: scale(1.1);
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76,175,80,0.5);
+        }
+        .logo-option img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        .product-preview {
+            flex-grow: 1;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-preview::before,
+        .product-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            transition: background-color 0.3s ease;
+        }
+        .product-preview::before {
+            left: 0;
+            background-color: var(--color1, rgba(51, 51, 51, 0.8));
+        }
+        .product-preview::after {
+            right: 0;
+            background-color: var(--color2, rgba(51, 51, 51, 0.8));
+        }
+        .preview-image {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #888;
+            position: relative;
+            z-index: 1;
+        }
+        .preview-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .color-options {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            margin: 0 5px;
+        }
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        .color-white { background-color: white; }
+        .color-black { background-color: black; }
+        .color-beige { background-color: beige; }
+        .color-anthracite { background-color: #36454F; }
+        .go-to-product {
+            background-color: #565C62;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .go-to-product:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TARAFINI SEÇ TİŞÖRTÜNÜ GİY</h1>
+        <div class="customization-area">
+            <div class="logo-selection" id="logoSelection">
+                <!-- Logos will be dynamically added here -->
+            </div>
+            <div class="product-preview" id="productPreview">
+                <div class="preview-image" id="previewImage">
+                    Ürün önizlemesi bu alanda yer alacak
+                </div>
+                <div class="color-options">
+                    <div class="color-option color-white" onclick="goToProductPage('white')"></div>
+                    <div class="color-option color-black" onclick="goToProductPage('black')"></div>
+                    <div class="color-option color-beige" onclick="goToProductPage('beige')"></div>
+                    <div class="color-option color-anthracite" onclick="goToProductPage('anthracite')"></div>
+                </div>
+                <button class="go-to-product" onclick="goToProductPage()">ÜRÜN SAYFASINA GİT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLogo;
+        const logos = [
+            { url: "https://i.ibb.co/V9Vjkn7/gs1.png", name: "Sarı Kırmızı Aslan", redirect: "https://neyex.co/aslan-taraftar-ozel", preview: "https://i.hizliresim.com/3ca8fyw.png" },
+            { url: "https://i.ibb.co/DC6CQ8N/gs2.png", name: "Futbolcu ve Aslan", redirect: "https://neyex.co/futbol-aslan-taraftar-ozel", preview: "https://i.hizliresim.com/1luru9x.png" },
+            { url: "https://i.ibb.co/grTRK8y/gs3.png", name: "Aslan 1905", redirect: "https://neyex.co/aslan-1905-taraftar-ozel", preview: "https://i.hizliresim.com/o7zuz1g.png" },
+            { url: "https://i.ibb.co/0c48ZjY/fb-1.png", name: "Kadıköy Boğası 1907", redirect: "https://neyex.co/kadikoy-boga-taraftar-ozel", preview: "https://i.hizliresim.com/lnzs8s4.png" },
+            { url: "https://i.ibb.co/44PxLCk/fb2.png", name: "Sarı Kanarya 1907", redirect: "https://neyex.co/sari-kanarya-taraftar-ozel", preview: "https://i.hizliresim.com/oekxogj.png" },
+            { url: "https://i.ibb.co/6mC4Rv6/fb3.png", name: "Kadıköy Boğası", redirect: "https://neyex.co/kadikoy-bogasi-taraftar-ozel", preview: "https://i.hizliresim.com/mhvje2n.png" },
+            { url: "https://i.ibb.co/cDV6GpM/bjk1.png", name: "Kartal Pençesi 1903", redirect: "https://neyex.co/kartal-pencesi-taraftar-ozel", preview: "https://i.hizliresim.com/44pt2lm.png" },
+            { url: "https://i.ibb.co/r77D02K/bjk2.png", name: "Kara Kartal", redirect: "https://neyex.co/kara-kartal-taraftar-ozel", preview: "https://i.hizliresim.com/smd185d.png" },
+            { url: "https://i.ibb.co/QKsb8zS/bjk3.png", name: "Kartal 1903", redirect: "https://neyex.co/kartal-1903-taraftar-ozel", preview: "https://i.hizliresim.com/o5cjvq0.png" },
+            { url: "https://i.ibb.co/Bz9f4qf/ts1.png", name: "Bordo Mavi Kaplan Pençesi", redirect: "https://neyex.co/bordomavi-kaplan-taraftar-ozel", preview: "https://i.hizliresim.com/cuqzmyj.png" },
+            { url: "https://i.ibb.co/10cWpqx/ts2.png", name: "Karadeniz Kaplanı 1967", redirect: "https://neyex.co/karadeniz-1967-taraftar-ozel", preview: "https://i.hizliresim.com/e4kn2yc.png" },
+            { url: "https://i.ibb.co/bvW4V6H/ts3.png", name: "Karadeniz Kaplanı", redirect: "https://neyex.co/karadeniz-kaplan-taraftar-ozel", preview: "https://i.hizliresim.com/4ghtx93.png" }
+        ];
+
+        function initializeLogos() {
+            const logoSelection = document.getElementById('logoSelection');
+            logos.forEach((logo, index) => {
+                const logoOption = document.createElement('div');
+                logoOption.className = 'logo-option';
+                logoOption.onclick = () => selectLogo(logo, index);
+                const img = document.createElement('img');
+                img.src = logo.url;
+                img.alt = logo.name;
+                logoOption.appendChild(img);
+                logoSelection.appendChild(logoOption);
+            });
+        }
+
+        function selectLogo(logo, index) {
+            selectedLogo = logo;
+            document.querySelectorAll('.logo-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            updatePreview();
+            updateBackgroundColor(index);
+        }
+
+        function updatePreview() {
+            const previewImage = document.getElementById('previewImage');
+            if (selectedLogo) {
+                previewImage.innerHTML = `<img src="${selectedLogo.preview}" alt="${selectedLogo.name}">`;
+            } else {
+                previewImage.innerHTML = 'Ürün önizlemesi bu alanda yer alacak';
+            }
+        }
+
+        function updateBackgroundColor(index) {
+            const productPreview = document.getElementById('productPreview');
+            let color1, color2;
+            if (index < 3) {
+                color1 = 'rgba(255, 204, 0, 0.8)'; // Yellow
+                color2 = 'rgba(204, 0, 0, 0.8)'; // Red
+            } else if (index < 6) {
+                color1 = 'rgba(255, 204, 0, 0.8)'; // Yellow
+                color2 = 'rgba(0, 51, 102, 0.8)'; // Navy
+            } else if (index < 9) {
+                color1 = 'rgba(0, 0, 0, 0.8)'; // Black
+                color2 = 'rgba(255, 255, 255, 0.8)'; // White
+            } else {
+                color1 = 'rgba(128, 0, 0, 0.8)'; // Burgundy
+                color2 = 'rgba(0, 0, 128, 0.8)'; // Blue
+            }
+            productPreview.style.setProperty('--color1', color1);
+            productPreview.style.setProperty('--color2', color2);
+        }
+
+        function goToProductPage(color) {
+            if (selectedLogo) {
+                const url = new URL(selectedLogo.redirect);
+                if (color) {
+                    url.searchParams.append('color', color);
+                }
+                window.top.location.href = url.toString();
+            } else {
+                alert('Lütfen önce bir logo seçin.');
+            }
+        }
+
+        // Initialize logos when the page loads
+        window.onload = initializeLogos;
+    </script>
+</body>
+</html>
